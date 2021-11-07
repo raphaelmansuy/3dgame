@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+		<script type="module">
+		import * as THREE from 'https://cdn.skypack.dev/three'
+		import { createCube } from './cube.js'
+		import { createGround } from './ground.js'
+	
+			const scene = new THREE.Scene();
+			const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+			const renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			const cube = createCube();
+			scene.add( cube );
+
+			const ground = createGround();
+			scene.add( ground );
+
+			camera.position.z = 5;
+
+			window.addEventListener( 'keydown', onKeyDown, false );
+
+
+			var speed = 0.1;
+
+			function onKeyDown( event ) {
+				console.log( event);
+				switch ( event.key ) {
+					case 'ArrowUp':
+						console.log('up');
+						cube.position.y += 0.1;
+						break;
+					case 'ArrowDown':
+						cube.position.y -= 0.1;
+						break;
+					case 'ArrowLeft':
+						cube.position.x -= 0.1;
+						break;
+					case 'ArrowRight':
+						cube.position.x += 0.1;
+						break;						
+
+				}
+			}
+
+			const animate = function () {
+				requestAnimationFrame( animate );
+
+				cube.rotation.x += speed;
+				cube.rotation.y += speed;
+
+				renderer.render( scene, camera );
+			};
+
+			animate();
+		</script>
+	</body>
+</html>
